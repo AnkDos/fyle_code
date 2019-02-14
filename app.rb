@@ -15,8 +15,10 @@ get '/' do
       erb:app
 end
 
-get "/ifsc/:ifsc" do
-    ifsc = params[:ifsc].to_s
+get "/:ifsc1/:ifsc2" do
+    ifsc1 = params[:ifsc1].to_s 
+    ifsc = params[:ifsc2].to_s
+    if ifsc1 == "ifsc"       
     found = false
     CSV.foreach("csv/bank_branches.csv" , :encoding => 'windows-1251:utf-8') do |vals|
         if vals[0] == ifsc 
@@ -38,5 +40,8 @@ get "/ifsc/:ifsc" do
       else
         @output = json_error_message.to_json  
       end
-      
+    else
+        @output = json_error_message.to_json
+    end
+
 end
