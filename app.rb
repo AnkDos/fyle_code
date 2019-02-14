@@ -48,12 +48,13 @@ get "/:ifsc1/:ifsc2" do
 end
 
 get "/:by_city/:bank_name/:city" do
+    ar = [] 
     by_city = params[:by_city].to_s
     bank_name = params[:bank_name].to_s
     city = params[:city].to_s
     found = false
-    if by_city = "by_city"
-    CSV.foreach("bank_branches.csv" , :encoding => 'windows-1251:utf-8') do |vals|
+    if by_city == "by_city"
+    CSV.foreach("csv/bank_branches.csv" , :encoding => 'windows-1251:utf-8') do |vals|
         if vals[7] == bank_name && vals[4] == city 
             json_by_city["ifsc"] = vals[0]
             json_by_city["bank_name"] = vals[7]
@@ -74,10 +75,12 @@ get "/:by_city/:bank_name/:city" do
     end     
         if found == true
           json_final["data"] = ar
-          @output = json_final.to_json
+          @output = json_final.to_s
+          
         else
             @output = json_error_message.to_json
         end
+          
 
 end
 
