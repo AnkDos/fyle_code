@@ -75,7 +75,7 @@ get "/:by_city/:bank_name/:city" do
     end     
         if found == true
           json_final["data"] = ar
-          @output = json_final.to_s
+          @output = json_final.to_json
           
         else
             @output = json_error_message.to_json
